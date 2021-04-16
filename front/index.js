@@ -1,7 +1,10 @@
-
 const BG_COLOR = 'A231F20';
 const SNAKE_COLOR = '#c2c2c2';
 const FOOD_COLOR = '#e66916';
+
+const socket = io('https://suckstobeme.herokuapp.com:3000');
+
+socket.on('init', handleInit);
 
 const gameScreen = document.getElementById('gamescreen');
 
@@ -73,3 +76,8 @@ function paintPlayer(playerState, size, colour) {
 }
 
 paintGame(gameState);
+
+function handleInit(msg) {
+    console.log("cenas");
+    console.log(msg);
+}
