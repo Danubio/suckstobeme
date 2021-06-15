@@ -1,0 +1,28 @@
+{
+  "name": "SucksToBeMe",
+  "version": "1.0.0",
+  "description": "multiplayer battleship game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danubio/suckstobeme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Danubio/suckstobeme/issues"
+  },
+  "homepage": "https://github.com/Danubio/suckstobeme#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
