@@ -29,21 +29,53 @@ document.addEventListener('DOMContentLoaded', () => {
     let allShipsPlaced = false
     let shotFired = -1
 
-    const socket = io();
+    //start single player mode
+    singlePlayerButton.addEventListener('click', startSinglePlayerMode)
+    multiPlayerButton.addEventListener('click', startMultiPlayerMode)
 
-    //get your player number
-    socket.on('player-number', number => {
-      if(number === -1) {
-        infoDisplay.innerHTML = 'Sorry the server is full'
-      } else {
-        playerNum = parseInt(number)
-        if (playerNum === 1) currentPlayer = "enemy"
+    
+    
+    //multiplayer
+    function startMultiPlayerMode() {
+      gameMode = "multiPlayer"
+      const socket = io();
 
-        console.log(playerNum)
-      }
-    })
+      //get your player number
+      socket.on('player-number', number => {
+        if(number === -1) {
+          infoDisplay.innerHTML = 'Sorry the server is full'
+        } else {
+          playerNum = parseInt(number)
+          if (playerNum === 1) currentPlayer = "enemy"
 
-  
+          console.log(playerNum)
+        }
+      })
+
+      //A player has connected or disconnected
+      socket.on('player-connection', num => {
+        console.log(`Player number ${num} has connected or disconnected`)
+      })
+      playerConnectedOrDisconnected(num)
+    }
+
+    function playerConnectedOrDisconnected(num) {
+      let player = `.p${parseInt(num) + 1}`
+      document.querySelector(`${player} .connected span`)
+    }
+
+    //single player function
+    function startSinglePlayerMode() {
+      gameMode = "singlePlayer"
+
+      generate(shipArray[0])
+      generate(shipArray[1])
+      generate(shipArray[2])
+      generate(shipArray[3])
+      generate(shipArray[4])
+
+      startButton.addEventListener('click', playGameSingle)
+    }
   
     //Create Board
     function createBoard(grid, squares) {
@@ -112,11 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
       else generate(ship)
     }
-    generate(shipArray[0])
-    generate(shipArray[1])
-    generate(shipArray[2])
-    generate(shipArray[3])
-    generate(shipArray[4])
+    
   
     //Rotate the ships
     function rotate() {
@@ -217,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     //Game Logic
-    function playGame() {
+    function playGameSingle() {
       if (isGameOver) return
       if (currentPlayer === 'user') {
         turnDisplay.innerHTML = 'Your Go'
@@ -230,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(computerGo, 1000)
       }
     }
-    startButton.addEventListener('click', playGame)
+    
   
     let destroyerCount = 0
     let submarineCount = 0
@@ -254,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       checkForWins()
       currentPlayer = 'computer'
-      playGame()
+      playGameSingle()
     }
   
     let cpuDestroyerCount = 0
@@ -332,6 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
     function gameOver() {
       isGameOver = true
-      startButton.removeEventListener('click', playGame)
+      startButton.removeEventListener('click', playGameSingle)
     }
   })

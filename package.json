@@ -1,5 +1,5 @@
 {
-  "name": "SucksToBeMe",
+  "name": "sucks_to_be_me",
   "version": "1.0.0",
   "description": "multiplayer battleship game",
   "main": "server.js",
